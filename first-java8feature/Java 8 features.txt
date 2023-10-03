@@ -1,0 +1,9 @@
+Java 8 features:-
+1)Lambda
+2)Functional Programming
+3)Method Reference
+4)Stream
+5)DateTime/API
+6)Default/Static method in interface
+7)Optional Class
+8)Marker Interface(Interface with no method)
