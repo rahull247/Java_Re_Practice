@@ -1,0 +1,14 @@
+com\practice\junit\SecondJunitMockitoApplicationTests.class
+com\practice\junit\eight\TestingFunctions.class
+com\practice\junit\nine\IntegrationTagTest.class
+com\practice\junit\first\MyCalculatorTest.class
+com\practice\junit\seven\ParameterizedTest.class
+com\practice\junit\nine\NormalTagSystem.class
+com\practice\junit\seven\Color.class
+com\practice\junit\eight\ExecutionMethodOrdering.class
+com\practice\junit\third\CalculatorTest.class
+com\practice\junit\nine\SystemTagTest.class
+com\practice\junit\sixth\JunitAnnotations.class
+com\practice\junit\fourth\StudentServiceTest.class
+com\practice\junit\fifth\StudentServiceAnnotaionTest.class
+com\practice\junit\second\MyCalculatorEnrichTest.class

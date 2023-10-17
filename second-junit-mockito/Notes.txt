@@ -1,0 +1,7 @@
+1) Plugin added to run tags using "mvn clean install command"
+            <plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<groups>SystemTag</groups>
+				</configuration>
+			</plugin>
