@@ -1,0 +1,3 @@
+com\practice\jpa\model\User.class
+com\practice\jpa\repository\UserRepository.class
+com\practice\jpa\ThirdJpaRepositoryApplication.class
