@@ -1,0 +1,47 @@
+server:
+ port: 5555
+
+db:
+ url: jdbc:postgresql://localhost:5432/livedb
+otherms:
+ url: http://live-server:5656
+
+spring:
+ jpa:
+  hibernate:
+   ddl-auto: create
+  properties:
+   hibernate:
+    format_sql=true:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+  show-sql: true
+ datasource:
+  url: jdbc:postgresql://localhost:5432/firstms_springboot
+  username: postgres
+  password: admin
+
+
+management:
+ server:
+  port: 4949
+ endpoints:
+  web:
+   exposure:
+    include: *
+  health:
+   enable: true
+   show-details: always
+   show-components: always
+ 
+info:
+ app:
+  name: First Microservice
+  description: Description of first microservice
+  version: v1.5
+
+
+
+eureka:
+ client:
+  serviceUrl:
+   defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/

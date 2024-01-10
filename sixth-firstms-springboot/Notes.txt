@@ -1,0 +1,13 @@
+1.Spring Configuration related to profiles:
+    i) Either you can configure profile in intellij edit configuration giving below command in program argument
+        --spring.profiles.active=<profilename>
+
+        or
+
+    i) In application property file you could mention below command
+        spring.profiles.active=<profilename>
+
+    Important: remember properties file should be created in this format: application-{profile}.properties
+
+2.mvn commands:
+    i. mvn clean install -Dmaven.test.skip
