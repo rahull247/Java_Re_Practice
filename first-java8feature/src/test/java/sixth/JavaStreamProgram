@@ -747,4 +747,30 @@ public class JavaStreamProgram {
         System.out.println(collect);
     }
 
+     @Test
+    void userMarksGroupByAgeAndGetEachGroupHighestMathMark() {
+        Stream<UserMarks> userMarksStream = Stream.of(
+                new UserMarks("Rahul", 21, 81, 99),
+                new UserMarks("Akshay", 21, 95, 81),
+                new UserMarks("Simon", 23, 73, 77),
+                new UserMarks("Kunal", 23, 50, 100),
+                new UserMarks("John", 45, 56, 77),
+                new UserMarks("Kaby", 56, 87, 100)
+        );
+
+        Map<Integer, Optional<UserMarks>> collect = userMarksStream.collect(Collectors.groupingBy(UserMarks::getAge, Collectors.maxBy(Comparator.comparingInt(UserMarks::getMathsMarks))));
+        collect.forEach((age, user)-> System.out.println(age + "->" +user.get().getMathsMarks()));
+    }
+
+    @Test
+    void getWordFirstCharacterInitial() {
+       String str="Hello World Java!";
+
+        String collect = Arrays.stream(str.split(" "))
+                .map(st -> st.substring(0, 1))
+                .collect(Collectors.joining(""));
+
+        System.out.println(collect);
+    }
+
 }
