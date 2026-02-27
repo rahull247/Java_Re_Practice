@@ -10,10 +10,11 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class JavaStreamProgram {
-    @Test
+  @Test
     public void firstTest() {
         List<String> list = Arrays.asList("a", "b", "a", "c", "a", "d");
-        List<String> result = list.stream().filter(str -> str.startsWith("a"))
+        List<String> result = list.stream()
+                .filter(str -> str.startsWith("a"))
                 .map(str -> str.toUpperCase())
                 .collect(Collectors.toList());
         System.out.println(result);
@@ -28,8 +29,10 @@ public class JavaStreamProgram {
                         new Users(4, "Akash", 24),
                         new Users(5, "Aman", 21));
 
-        List<String> result = stringList.stream().filter(user -> user.getName().startsWith("A"))
-                .map(user -> user.getName().toUpperCase()).collect(Collectors.toList());
+        List<String> result = stringList.stream()
+                .filter(user -> user.getName().startsWith("A"))
+                .map(user -> user.getName().toUpperCase())
+                .collect(Collectors.toList());
         System.out.println(result);
     }
 
@@ -43,8 +46,11 @@ public class JavaStreamProgram {
                         new Users(5, "Aman", 21),
                         new Users(6, "Aman", 45));
 
-        List<String> result = stringList.stream().filter(user -> user.getName().startsWith("A"))
-                .map(user -> user.getName().toUpperCase()).distinct().collect(Collectors.toList());
+        List<String> result = stringList.stream()
+                .filter(user -> user.getName().startsWith("A"))
+                .map(user -> user.getName().toUpperCase())
+                .distinct()
+                .collect(Collectors.toList());
         System.out.println(result);
     }
 
@@ -58,7 +64,8 @@ public class JavaStreamProgram {
                         new Users(5, "Aman", 21),
                         new Users(6, "Aman", 45));
 
-        long result = stringList.stream().filter(user -> user.getName().startsWith("A"))
+        long result = stringList.stream()
+                .filter(user -> user.getName().startsWith("A"))
                 .count();
         System.out.println(result);
     }
@@ -73,7 +80,8 @@ public class JavaStreamProgram {
                         new Users(5, "Aman", 21),
                         new Users(6, "Aman", 45));
 
-        Map<Integer, String> result = stringList.stream().collect(Collectors.toMap(users -> users.getId(), users -> users.getName()));
+        Map<Integer, String> result = stringList.stream()
+                .collect(Collectors.toMap(users -> users.getId(),users -> users.getName()));
 
         System.out.println(result);
     }
@@ -105,9 +113,9 @@ public class JavaStreamProgram {
         people.put("Abhijeet", Arrays.asList("8963498119", "9988334576", "123985499"));
 
         List<String> result = people.values()
-                .stream().
-                flatMap(List::stream).
-                collect(Collectors.toList());
+                .stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
         System.out.println(result);
     }
 
@@ -119,8 +127,8 @@ public class JavaStreamProgram {
         people.put("Abhijeet", Arrays.asList("8963498119", "9988334576", "123985499"));
 
         List<String> result = people.values()
-                .stream().
-                flatMap(List::stream)
+                .stream()
+                .flatMap(List::stream)
                 .limit(2)
                 .collect(Collectors.toList());
         System.out.println(result);
@@ -134,8 +142,8 @@ public class JavaStreamProgram {
         people.put("Abhijeet", Arrays.asList("8963498119", "9988334576", "123985499"));
 
         List<String> result = people.values()
-                .stream().
-                flatMap(List::stream)
+                .stream()
+                .flatMap(List::stream)
                 .limit(2)
                 .skip(1)
                 .collect(Collectors.toList());
@@ -179,7 +187,7 @@ public class JavaStreamProgram {
         List<String> stringList = Arrays.asList("lambda", "In", "Action");
         Stream<String> stream = stringList.stream();
         boolean b = stream.noneMatch(s -> s.length() > 5);
-        System.out.println("Result " + b);
+        System.out.println("Result: " + b);
     }
 
 
@@ -193,7 +201,7 @@ public class JavaStreamProgram {
         );
 
         List<UserMarks> result = userMarksStream.sorted(Comparator.comparing(UserMarks::getName)).collect(Collectors.toList());
-        System.out.println(result);
+        result.forEach(System.out::println);
     }
 
     @Test
@@ -206,7 +214,7 @@ public class JavaStreamProgram {
         );
 
         List<UserMarks> result = userMarksStream.sorted(Comparator.comparing(UserMarks::getAge)).collect(Collectors.toList());
-        System.out.println(result);
+       result.forEach(System.out::println);
     }
 
     @Test
@@ -218,8 +226,13 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        List<String> result = userMarksStream.sorted(Comparator.comparing(UserMarks::getName))
+        List<String> result = /*userMarksStream
+                .sorted(Comparator.comparing(UserMarks::getName))
                 .map(userMarks -> userMarks.getName())
+                .collect(Collectors.toList());*/
+        userMarksStream
+                .map(userMarks -> userMarks.getName())
+                .sorted()
                 .collect(Collectors.toList());
         System.out.println(result);
     }
@@ -233,9 +246,9 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        Stream<Integer> result =
-                userMarksStream.map(userMarks -> userMarks.getAge())
-                        .sorted();
+        Stream<Integer> result =userMarksStream
+                .map(userMarks -> userMarks.getAge())
+                .sorted();
         result.forEach(System.out::println);
     }
 
@@ -268,11 +281,10 @@ public class JavaStreamProgram {
     }
 
     @Test
-    void userMarksnumberSumOnly() {
+    void userMarksNumberSumOnly() {
         Stream<Integer> userMarksStream = Stream.of(1, 2, 3, 4, 5);
 
-        int result =
-                userMarksStream.mapToInt(i -> i).sum();
+        int result = userMarksStream.mapToInt(i -> i).sum();
         System.out.println(result);
     }
 
@@ -285,8 +297,7 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        OptionalInt result =
-                userMarksStream.mapToInt(UserMarks::getMathsMarks).min();
+        OptionalInt result = userMarksStream.mapToInt(UserMarks::getMathsMarks).min();
         System.out.println(result);
     }
 
@@ -299,13 +310,12 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        OptionalInt result =
-                userMarksStream.mapToInt(UserMarks::getScienceMarks).max();
+        OptionalInt result = userMarksStream.mapToInt(UserMarks::getScienceMarks).max();
         System.out.println(result);
     }
 
     @Test
-    void userMarksPersonWithScienceMaxMarks() {
+    void userMarksGetPersonWithScienceMaxMarks() {
         Stream<UserMarks> userMarksStream = Stream.of(
                 new UserMarks("Rahul", 21, 81, 99),
                 new UserMarks("Akshay", 27, 95, 81),
@@ -313,8 +323,9 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        Optional<String> result =
-                userMarksStream.max(Comparator.comparing(UserMarks::getScienceMarks)).map(UserMarks::getName);
+        Optional<String> result = userMarksStream
+                        .max(Comparator.comparing(UserMarks::getScienceMarks))
+                        .map(UserMarks::getName);
         System.out.println(result);
     }
 
@@ -327,8 +338,9 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        Optional<String> result =
-                userMarksStream.min(Comparator.comparing(UserMarks::getMathsMarks)).map(UserMarks::getName);
+        Optional<String> result = userMarksStream
+                .min(Comparator.comparing(UserMarks::getMathsMarks))
+                .map(UserMarks::getName);
         System.out.println(result);
     }
 
@@ -341,14 +353,18 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-       /*Optional<String> result=
-               userMarksStream.max(Comparator.comparing(user->user.getScienceMarks() + user.getMathsMarks())).map(UserMarks::getName);*/
-        String result = userMarksStream.max(Comparator.comparing(user -> user.getMathsMarks() + user.getScienceMarks())).get().getName();
+       /*Optional<String> result= userMarksStream
+                  .max(Comparator.comparing(user->user.getScienceMarks() + user.getMathsMarks()))
+                  .map(UserMarks::getName);*/
+        String result = userMarksStream
+                .max(Comparator.comparing(user -> user.getMathsMarks() + user.getScienceMarks()))
+                .get()
+                .getName();
         System.out.println(result);
     }
 
     @Test
-    void userMarksPersonWithYoungest() {
+    void userMarksGetPersonWithYoungest() {
         Stream<UserMarks> userMarksStream = Stream.of(
                 new UserMarks("Rahul", 21, 81, 99),
                 new UserMarks("Akshay", 27, 95, 81),
@@ -356,24 +372,12 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        Optional<String> result =
-                userMarksStream.min(Comparator.comparing(UserMarks::getAge)).map(UserMarks::getName);
+        Optional<String> result = userMarksStream
+                .min(Comparator.comparing(UserMarks::getAge))
+                .map(UserMarks::getName);
         System.out.println(result);
     }
 
-    @Test
-    void userMarksPersonWithYoungest1() {
-        Stream<UserMarks> userMarksStream = Stream.of(
-                new UserMarks("Rahul", 21, 81, 99),
-                new UserMarks("Akshay", 27, 95, 81),
-                new UserMarks("Simon", 25, 73, 77),
-                new UserMarks("Kunal", 23, 50, 100)
-        );
-
-        Optional<String> result =
-                userMarksStream.min(Comparator.comparing(UserMarks::getAge)).map(UserMarks::getName);
-        System.out.println(result);
-    }
 
     @Test
     void userMarksPersonWithHighestMarksInMath() {
@@ -398,8 +402,9 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        OptionalInt result =
-                userMarksStream.mapToInt(UserMarks::getScienceMarks).max();
+        OptionalInt result = userMarksStream
+                .mapToInt(UserMarks::getScienceMarks)
+                .max();
         System.out.println(result);
     }
 
@@ -412,48 +417,58 @@ public class JavaStreamProgram {
                 new UserMarks("Kunal", 23, 50, 100)
         );
 
-        String result =
-                userMarksStream.max(Comparator.comparing(UserMarks::getMathsMarks)).get().getName();
+        String result = userMarksStream
+                .max(Comparator.comparing(UserMarks::getMathsMarks))
+                .get()
+                .getName();
         System.out.println(result);
     }
 
     @Test
     void secondTablePrint() {
         IntStream.rangeClosed(1, 10)
-                .map(i -> i * 2).forEach(System.out::println);
+                .map(i -> i * 2)
+                .forEach(System.out::println);
     }
 
     @Test
     void aggregationCollector() {
         List<String> names = Arrays.asList("John", "Alice", "Bob", "Jane", "Jane");
-        Map<Integer, Long> countByNameLength = names
-                .stream()
+        Map<Integer, Long> countByNameLength = names.stream()
                 .collect(Collectors.groupingBy(String::length, Collectors.counting()));
-        System.out.println(countByNameLength);
+                 System.out.println(countByNameLength);
 
-        Map<String, Long> countByNameLength1 = names.stream().map(s -> s.split("")).flatMap(Arrays::stream).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-        System.out.println(countByNameLength1);
+        Map<String, Long> countByNameLength1 = names.stream()
+                .map(s -> s.split(""))
+                .flatMap(Arrays::stream)
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+                System.out.println(countByNameLength1);
 
-        Map<String, Long> collect = names.stream().collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-        System.out.println(collect);
+        Map<String, Long> collect = names.stream()
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+                 System.out.println(collect);
     }
 
     @Test
     void productOfAllNumber() {
         //multiplication of all number
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
-        int product = numbers.stream().reduce(1, (a, b) -> a * b);
+        int product = numbers.stream()
+                .reduce(1, (a, b) -> a * b);
         System.out.println("Product: " + product);
     }
 
     @Test
     void maxNUmber() {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
-        Optional<Integer> max = numbers.stream().max(Integer::compare);
-        System.out.println("Max: " + max);
+        Optional<Integer> max = numbers.stream()
+                .max(Integer::compare);
+                System.out.println("Max: " + max);
 
-        OptionalInt max1 = numbers.stream().mapToInt(i -> i).max();
-        System.out.println(max1);
+        OptionalInt max1 = numbers.stream()
+                .mapToInt(i -> i)
+                .max();
+                System.out.println(max1);
     }
 
     @Test
@@ -469,7 +484,9 @@ public class JavaStreamProgram {
     @Test
     void sortByTheirLength() {
         List<String> words = List.of("apple", "banana", "kiwi");
-        List<String> collect = words.stream().sorted(Comparator.comparing(String::length)).collect(Collectors.toList());
+        List<String> collect = words.stream()
+                .sorted(Comparator.comparing(String::length))
+                .collect(Collectors.toList());
         System.out.println(collect);
     }
 
@@ -485,39 +502,52 @@ public class JavaStreamProgram {
     @Test
     void findSecondLargestNum() {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
-        Optional<Integer> max = numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findAny();
+        Optional<Integer> max = numbers.stream()
+                .sorted(Comparator.reverseOrder())
+                .skip(1)
+                .findAny();
         System.out.println(max);
     }
 
     @Test
     void findSecondsmallestNum() {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
-        Optional<Integer> max = numbers.stream().sorted().skip(1).findAny();
+        Optional<Integer> max = numbers.stream()
+                .sorted()
+                .skip(1)
+                .findAny();
         System.out.println(max);
 
         List<Integer> numbers1 = List.of(2, 1, 3, 5, 4);
-        List<Integer> collect = numbers1.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        List<Integer> collect = numbers1.stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
         System.out.println(collect);
     }
 
     @Test
     void findStringByTheirLength() {
         List<String> words = List.of("apple", "banana", "kiwi");
-        Map<Integer, List<String>> collect = words.stream().collect(Collectors.groupingBy(String::length));
+        Map<Integer, List<String>> collect = words.stream()
+                .collect(Collectors.groupingBy(String::length));
         System.out.println(collect);
     }
 
     @Test
-    void partionedByEvenAndOdd() {
+    void partitionedByEvenAndOdd() {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
-        Map<Boolean, List<Integer>> collect = numbers.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));
+        Map<Boolean, List<Integer>> collect = numbers.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0));
         System.out.println(collect);
     }
 
     @Test
     void countOfString() {
         String str = "hello rahul";
-        Map<Character, Long> collect = str.chars().mapToObj(c -> (char) c).collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+        Map<Character, Long> collect = str
+                .chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
         System.out.println(collect);
 
     }
@@ -525,16 +555,21 @@ public class JavaStreamProgram {
     @Test
     void countOfStringWord() {
         String str = "hello rahul hello";
-        Map<String, Long> collect = Arrays.stream(str.split(" ")).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-        Map<Integer, Long> collect1 = Arrays.stream(str.split(" ")).collect(Collectors.groupingBy(String::length, Collectors.counting()));
-        System.out.println(collect);
-        System.out.println(collect1);
+        Map<String, Long> collect = Arrays.stream(str.split(" "))
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+        System.out.println(collect); //{rahul=1, hello=2}
+
+        Map<Integer, Long> collect1 = Arrays.stream(str.split(" "))
+                .collect(Collectors.groupingBy(String::length, Collectors.counting()));
+        System.out.println(collect1);//{5=3}
     }
 
     @Test
     void countOccuranceOfVowels() {
         String str = "hello rahula";
-        Map<Character, Long> collect = str.chars().mapToObj(c -> (char) c)
+        Map<Character, Long> collect = str
+                .chars()
+                .mapToObj(c -> (char) c)
                 .filter(s -> "aeiou".contains(String.valueOf(s)))
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
         System.out.println(collect);
@@ -546,17 +581,19 @@ public class JavaStreamProgram {
         Map<Character, Long> collect = str.chars().mapToObj(c -> (char) c)
                 .filter(Character::isDigit)
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
-        System.out.println(collect);
+        System.out.println(collect);//{a=2, u=1, e=1, o=1}
     }
 
     @Test
     void reverseTheList() {
         List<Integer> numbers = List.of(1, 2, 3, 4, 6, 5);
-        List<Integer> collect = numbers.stream().collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
-            Collections.reverse(list);
-            return list;
-        }));
-        System.out.println(collect);
+        List<Integer> collect = numbers.stream()
+                .collect(Collectors.collectingAndThen(Collectors.toList(),
+         list -> {
+                        Collections.reverse(list);
+                        return list;
+                }));
+        System.out.println(collect);//[5, 6, 4, 3, 2, 1]
     }
 
     @Test
@@ -564,8 +601,12 @@ public class JavaStreamProgram {
         List<String> words = List.of("apple", "banana", "apple", "orange", "banana", "apple");
         String result = words.stream()
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()))
-                .entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElseGet(null);
-        System.out.println(result);
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElseGet(null);
+        System.out.println(result);//apple
     }
 
     @Test
@@ -573,20 +614,27 @@ public class JavaStreamProgram {
         List<String> words = List.of("apple", "banana", "apple", "orange", "banana", "apple");
         String result = words.stream()
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()))
-                .entrySet().stream().min(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElseGet(null);
-        System.out.println(result);
+                .entrySet()
+                .stream()
+                .min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElseGet(null);
+        System.out.println(result);//orange
     }
 
     @Test
     void findTheFirstNonRepeatedCharacter() {
         String input = "hello";
-
-        IntStream chars = input.chars();
-        Optional<Character> first = chars.mapToObj(c -> (char) c)
-                .collect(Collectors.groupingBy(c -> c, LinkedHashMap::new, Collectors.counting()))
-                .entrySet().stream().filter(entry -> entry.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .findFirst();
+        Optional<Character> first = input
+          .chars()
+          .mapToObj(c -> (char) c)
+          .collect(Collectors.groupingBy(c -> c, LinkedHashMap::new, Collectors.counting()))
+          .entrySet()
+          .stream()
+          .filter(entry -> entry.getValue() == 1)
+          .map(Map.Entry::getKey)
+          //.map(entry->entry.getKey())
+          .findFirst();
         System.out.println("result" + first);
 
     }
@@ -596,16 +644,22 @@ public class JavaStreamProgram {
         String input = "hello";
 
         IntStream chars = input.chars();
-        Stream<Character> characterStream = chars.mapToObj(c -> (char) c);
+        Stream<Character> characterStream = chars
+                .mapToObj(c -> (char) c);
         System.out.println("characterStream" + characterStream);
-        LinkedHashMap<Character, Long> collect = characterStream.collect(Collectors.groupingBy(c -> c, LinkedHashMap::new, Collectors.counting()));
+        LinkedHashMap<Character, Long> collect = characterStream
+                .collect(Collectors.groupingBy(c -> c, LinkedHashMap::new, Collectors.counting()));
         System.out.println("collect" + collect);
-        Stream<Map.Entry<Character, Long>> entryStream =
-                collect.entrySet().stream().filter(entry -> entry.getValue() > 1);
+        Stream<Map.Entry<Character, Long>> entryStream =collect
+                        .entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue() > 1);
         System.out.println("entryStream" + entryStream);
-        Stream<Character> characterStream1 = entryStream.map(Map.Entry::getKey);
+        Stream<Character> characterStream1 = entryStream
+                        .map(Map.Entry::getKey);
         System.out.println("characterStream1" + characterStream1);
-        Optional<Character> first = characterStream1.findFirst();
+        Optional<Character> first = characterStream1
+                        .findFirst();
         System.out.println("result" + first);
 
     }
@@ -613,17 +667,19 @@ public class JavaStreamProgram {
     @Test
     void checkStringIsPalindromeOrNot() {
         String input = "madam";
-        IntStream intStream = IntStream.rangeClosed(0, input.length() / 2);
-        boolean b = intStream.allMatch(i -> input.charAt(i) == input.charAt(input.length() - 1 - i));
-        System.out.println(b);
+        boolean b = IntStream
+                .rangeClosed(0, input.length() / 2)
+                .allMatch(i -> input.charAt(i) == input.charAt(input.length() - 1 - i));
+        System.out.println(b);//true
     }
 
     @Test
     void generateRandomNumbers() {
-        List<Integer> collect = Stream.generate(() -> new Random().nextInt(100))
+        List<Integer> collect = Stream
+                .generate(() -> new Random().nextInt(100))
                 .limit(10)
                 .collect(Collectors.toList());
-        System.out.println(collect);
+        System.out.println(collect);//[72, 35, 18, 50, 87, 85, 17, 24, 48, 41]
     }
 
     @Test
@@ -632,7 +688,9 @@ public class JavaStreamProgram {
                 List.of(4, 5, 6),
                 List.of(7, 8, 9));
 
-        List<Integer> collect = lists.stream().flatMap(List::stream).collect(Collectors.toList());
+        List<Integer> collect = lists.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());//[1, 2, 3, 4, 5, 6, 7, 8, 9]
         System.out.println(collect);
 
 
@@ -644,7 +702,10 @@ public class JavaStreamProgram {
                 List.of(4, 5, 6),
                 List.of(7, 8, 9));
 
-        int sum = lists.stream().flatMap(List::stream).filter(i -> i % 2 == 0).mapToInt(i -> i).sum();
+        int sum = lists.stream()
+                .flatMap(List::stream)
+                .filter(i -> i % 2 == 0)
+                .mapToInt(i -> i).sum();
         System.out.println(sum);
 
 
@@ -653,7 +714,8 @@ public class JavaStreamProgram {
     @Test
     void findLongestPalindromeInListOfString() {
         List<String> words = List.of("madam", "racecar", "apple", "banana", "level");
-        Optional<String> max = words.stream().filter(str -> str.equals(new StringBuffer(str).reverse().toString()))
+        Optional<String> max = words.stream()
+                .filter(str -> str.equals(new StringBuffer(str).reverse().toString()))
                 .max(Comparator.comparing(String::length));
         //.max(Comparator.comparingInt(String::length));
         System.out.println(max);
@@ -665,11 +727,12 @@ public class JavaStreamProgram {
         String reversed = input.chars()
                 .mapToObj(c -> String.valueOf((char) c))
                 .reduce("", (a, b) -> b + a);
-        System.out.println(reversed);
+        System.out.println(reversed);//tset a si siht dlrow olleh
 
         String input1 = "hello world this is a test";
         String output = Arrays.stream(input1.split(" "))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                .collect(Collectors.collectingAndThen(Collectors.toList(),
+                        list -> {
                     Collections.reverse(list);
                     return String.join(" ", list);
                 }));
@@ -680,7 +743,13 @@ public class JavaStreamProgram {
         String input = "hello world this is a test";
         Optional<String> max = Arrays.stream(input.split(" "))
                 .max(Comparator.comparingInt(String::length));
-        System.out.println(max);
+        System.out.println(max); //Optional[hello]
+
+        Map<Character, Long> collect = input
+                .chars()
+                .mapToObj(ch -> (char) ch)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(collect); // { =5, a=1, r=1, s=3, t=3, d=1, e=2, w=1, h=2, i=2, l=3, o=2}
     }
 
     /*Java 8 stream program
@@ -735,7 +804,11 @@ public class JavaStreamProgram {
     void distinctArraySum(){
         List<Integer> list1 = List.of(1, 2, 3);
         List<Integer> list2 = List.of(1, 1, 1);
-        int sum = Stream.concat(list1.stream(), list2.stream()).distinct().mapToInt(Integer::intValue).sum();
+        int sum = Stream
+                .concat(list1.stream(), list2.stream())
+                .distinct()
+                .mapToInt(i->i)
+                .sum();
         System.out.println(sum);
     }
 
@@ -743,11 +816,16 @@ public class JavaStreamProgram {
     @Test
     void functionIdentity() {
         String str = "Hello";
-        Map<Character, Long> collect = str.toLowerCase().chars().mapToObj(c -> (char) c).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        Map<Character, Long> collect = str
+                .toLowerCase()
+                .chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         System.out.println(collect);
     }
 
-     @Test
+
+    @Test
     void userMarksGroupByAgeAndGetEachGroupHighestMathMark() {
         Stream<UserMarks> userMarksStream = Stream.of(
                 new UserMarks("Rahul", 21, 81, 99),
@@ -758,19 +836,18 @@ public class JavaStreamProgram {
                 new UserMarks("Kaby", 56, 87, 100)
         );
 
-        Map<Integer, Optional<UserMarks>> collect = userMarksStream.collect(Collectors.groupingBy(UserMarks::getAge, Collectors.maxBy(Comparator.comparingInt(UserMarks::getMathsMarks))));
+        Map<Integer, Optional<UserMarks>> collect = userMarksStream
+                .collect(Collectors.groupingBy(UserMarks::getAge, Collectors.maxBy(Comparator.comparingInt(UserMarks::getMathsMarks))));
         collect.forEach((age, user)-> System.out.println(age + "->" +user.get().getMathsMarks()));
     }
 
     @Test
     void getWordFirstCharacterInitial() {
        String str="Hello World Java!";
-
         String collect = Arrays.stream(str.split(" "))
                 .map(st -> st.substring(0, 1))
                 .collect(Collectors.joining(""));
-
-        System.out.println(collect);
+        System.out.println(collect);//HWJ
     }
-
+ 
 }
