@@ -849,5 +849,165 @@ public class JavaStreamProgram {
                 .collect(Collectors.joining(""));
         System.out.println(collect);//HWJ
     }
+
+    @Test
+    void additionByCity(){
+        List<String> data = Arrays.asList(
+                "Pune, East, 1000",
+                "Pune, West, 2000",
+                "Hyderabad, North, 3000",
+                "Hyderabad, South, 2000"
+        );
+
+        String s="Pune, East, 1000";
+        String[] split = s.split(",\\s*");
+        System.out.println(Arrays.toString(split));
+
+        Map<String, Integer> cityPopulation = data.stream()
+                .map(line -> line.split(",\\s*"))
+                .collect(Collectors.groupingBy(
+                        arr -> arr[0],
+                        Collectors.summingInt(arr -> Integer.parseInt(arr[2]))
+                ));
+
+        cityPopulation.forEach((city, pop) -> System.out.println(city + " " + pop));
+    }
+
+    @Test
+    public void summaryOfStaticstic(){
+        List<Integer> list = Arrays.asList(5, 3, 6, 7, 1, 2);
+
+        IntSummaryStatistics intSummaryStatistics = list.stream()
+                .mapToInt(n -> n)
+                .summaryStatistics();
+
+        System.out.println("Max: "+intSummaryStatistics.getMax());
+        System.out.println("Min: "+intSummaryStatistics.getMin());
+        System.out.println("Average: "+intSummaryStatistics.getAverage());
+        System.out.println("Count: "+intSummaryStatistics.getCount());
+
+    }
+
+    @Test
+    void findThirdHighestString(){
+        List<String> list = Arrays.asList("apple", "banana", "kiwi", "cherry", "mango");
+
+        Optional<String> first = list.stream()
+                .sorted((w1, w2) -> Integer.compare(w2.length(), w1.length()))
+                .skip(1)
+                .findFirst();
+
+        System.out.println(first);
+
+    }
+
+    @Test
+    void sumOfAgeUsingNameGroupBy(){
+        List<Users> stringList = Arrays.asList
+                (new Users(1, "Rahul", 27),
+                        new Users(2, "Akshay", 28),
+                        new Users(3, "Ganesh", 32),
+                        new Users(4, "Akash", 24),
+                        new Users(5, "Aman", 21),
+                        new Users(6, "Aman", 45));
+
+        Map<String, Integer> collect = stringList.stream()
+                .collect(Collectors.groupingBy(s -> s.getName(), Collectors.summingInt(s -> s.getAge())));
+
+        System.out.println(collect);
+
+    }
+
+    @Test
+    void containsDuplicateNumber(){
+        int[] list = {1, 2, 3, 4, 5};
+
+        Set<Integer> numSet= new HashSet<>();
+
+        boolean b = Arrays.stream(list).anyMatch(ele -> !numSet.add(ele));
+
+        System.out.println(b);
+
+    }
+
+    @Test
+    void comapringByNameAndAge() {
+        Stream<UserMarks> userMarksStream = Stream.of(
+                new UserMarks("Rahul", 21, 81, 99),
+                new UserMarks("Akshay", 27, 95, 81),
+                new UserMarks("Simon", 25, 73, 77),
+                new UserMarks("Kunal", 23, 50, 100)
+        );
+
+            userMarksStream.sorted(Comparator.comparing(UserMarks::getAge).thenComparing(UserMarks::getName)).forEach(System.out::println);
+    }
+
+    @Test
+    void firstCharacterGroupingBy(){
+        List<String> list = Arrays.asList("apple", "airoplane", "banana", "blueberry", "kiwi", "cherry", "mango");
+
+        Map<Character, List<String>> collect = list.stream()
+                .collect(Collectors.groupingBy(str -> str.charAt(0)));
+
+        System.out.println(collect);
+    }
+
+    @Test
+    void mostFrequentCharacter(){
+        String input="banana appllee";
+
+        String processed = input.replaceAll(" ", "");
+
+        Optional<Map.Entry<Character, Long>> min = processed
+                .chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .min(Map.Entry.comparingByValue()).stream().findFirst();
+
+        System.out.println(min);
+
+
+    }
+
+    @Test
+    void printNumberEndingWith1InAscendingOrder(){
+        List<Integer> list = Arrays.asList(150, 145, 102, 11, 21, 31, 41, 51, 21, 61, 12, 22, 31, 71, 81);
+
+       /* Stream<Integer> sorted = list.stream()
+                .filter(num -> num % 10 == 1)
+                .distinct()
+                .sorted();*/
+
+        Stream<Integer> sorted = list.stream()
+                .filter(num->String.valueOf(num).contains("1"))
+                .distinct()
+                .sorted();
+
+        sorted.forEach(System.out::println);
+    }
+
+    @Test
+    void printFibonacciSeries(){
+        // 0, 1, 1, 2, 3
+        Stream.iterate(new int[]{0,1}, num-> new int[]{num[1], num[0]+num[1]})
+                .limit(5)
+                .map(num->num[0])
+                .forEach(System.out::println);
+    }
+
+    @Test
+    void indexOfClosestGivenNumber(){
+        List<Integer> list = Arrays.asList(-10, 2, 4, 8, 15, 1);
+        int target=3;
+
+        Integer closetsNum = IntStream.range(0, list.size())
+                .boxed()
+                .min(Comparator.comparing(index -> Math.abs(list.get(index) - target)))
+                .orElse(-1);
+
+        System.out.println(closetsNum);
+    }
  
 }
